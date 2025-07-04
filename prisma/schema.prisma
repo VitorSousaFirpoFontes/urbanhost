@@ -1,0 +1,185 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  phone        String?
+  passwordHash String
+  role         UserRole   @default(GUEST)
+  avatarUrl    String?
+  isVerified   Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  properties   Property[] @relation("HostProperties")
+  bookings     Booking[]  @relation("GuestBookings")
+  addresses    Address[]
+  reviewsAuthored Review[] @relation("AuthorReviews")
+  reviewsReceived Review[] @relation("TargetReviews")
+}
+
+model Address {
+  id         String    @id @default(uuid())
+  user       User?     @relation(fields: [userId], references: [id])
+  userId     String?
+  property   Property? @relation(fields: [propertyId], references: [id])
+  propertyId String?
+  street     String
+  number     String
+  city       String
+  state      String
+  country    String
+  zipCode    String
+  lat        Float?
+  lng        Float?
+  createdAt  DateTime  @default(now())
+}
+
+model Property {
+  id             String           @id @default(uuid())
+  host           User             @relation("HostProperties", fields: [hostId], references: [id])
+  hostId         String
+  title          String
+  description    String
+  type           PropertyType
+  maxGuests      Int
+  pricePerNight  Float
+  cleaningFee    Float?
+  status         PropertyStatus   @default(PENDING)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  images         PropertyImage[]
+  amenities      PropertyAmenity[]
+  bookings       Booking[]
+  reviews        Review[]
+  availability   Availability[]
+  addresses      Address[]
+}
+
+model PropertyImage {
+  id         String    @id @default(uuid())
+  property   Property  @relation(fields: [propertyId], references: [id])
+  propertyId String
+  url        String
+  isCover    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+}
+
+model Amenity {
+  id       String             @id @default(uuid())
+  name     String             @unique
+  properties PropertyAmenity[]
+}
+
+model PropertyAmenity {
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId String
+  amenity    Amenity  @relation(fields: [amenityId], references: [id])
+  amenityId  String
+
+  @@id([propertyId, amenityId])
+}
+
+model Booking {
+  id         String         @id @default(uuid())
+  property   Property       @relation(fields: [propertyId], references: [id])
+  propertyId String
+  guest      User           @relation("GuestBookings", fields: [guestId], references: [id])
+  guestId    String
+  checkIn    DateTime
+  checkOut   DateTime
+  totalPrice Float
+  status     BookingStatus  @default(PENDING)
+  payments   Payment[]
+  reviews    Review[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  booking   Booking       @relation(fields: [bookingId], references: [id])
+  bookingId String
+  amount    Float
+  method    PaymentMethod
+  status    PaymentStatus @default(PENDING)
+  paidAt    DateTime?
+  createdAt DateTime      @default(now())
+}
+
+model Review {
+  id         String        @id @default(uuid())
+  booking    Booking       @relation(fields: [bookingId], references: [id])
+  bookingId  String
+  author     User          @relation("AuthorReviews", fields: [authorId], references: [id])
+  authorId   String
+  target     User          @relation("TargetReviews", fields: [targetId], references: [id])
+  targetId   String
+  property   Property      @relation(fields: [propertyId], references: [id])
+  propertyId String
+  rating     Int
+  comment    String?
+  status     ReviewStatus  @default(PENDING)
+  createdAt  DateTime      @default(now())
+}
+
+model Availability {
+  id          String    @id @default(uuid())
+  property    Property  @relation(fields: [propertyId], references: [id])
+  propertyId  String
+  startDate   DateTime
+  endDate     DateTime
+  isAvailable Boolean   @default(true)
+}
+
+enum UserRole {
+  GUEST
+  HOST
+  ADMIN
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  ROOM
+  STUDIO
+  OTHER
+}
+
+enum PropertyStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

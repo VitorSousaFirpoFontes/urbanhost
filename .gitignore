@@ -1,0 +1,177 @@
+# ========================
+# 🌐 UrbanHost - .gitignore
+# ========================
+
+# ========== GENERAL ==========
+node_modules/
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+*.log
+*.tmp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ========== NEXT.JS FRONTEND ==========
+.next/
+out/
+.cache/
+dist/
+build/
+.nyc_output/
+coverage/
+.vscode/
+.idea/
+*.code-workspace
+
+# ========== TAILWIND/SHADCN ==========
+tailwind.output.css
+.postcss-cache/
+postcss.config.js
+
+# ========== TYPESCRIPT ==========
+*.tsbuildinfo
+
+# ========== PRISMA ==========
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations/*/README.md
+prisma/.env
+prisma/.env.*
+prisma/.DS_Store
+
+# ========== BACKEND ==========
+urbanhost-backend/node_modules/
+urbanhost-backend/.env
+urbanhost-backend/.env.*
+urbanhost-backend/.DS_Store
+urbanhost-backend/dist/
+urbanhost-backend/build/
+urbanhost-backend/coverage/
+urbanhost-backend/*.log
+
+# ========== DATABASE ==========
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.pgsql
+pgdata/
+postgres-data/
+supabase/
+docker-data/
+__db_cache__/
+
+# ========== CACHE & BUILD SYSTEMS ==========
+.cache/
+turbo/
+.turbo/
+.pnpm-debug.log
+.yarn/
+.yarnrc.yml
+.pnpm-store/
+.pnpm-debug.log
+.npm/
+npm-debug.log*
+.yarn-debug.log*
+.yarn-error.log*
+
+# ========== IMAGE/UPLOADS ==========
+uploads/
+public/uploads/
+public/temp/
+cloudinary/
+urbanhost-backend/uploads/
+urbanhost-backend/public/uploads/
+
+# ========== UPLOADTHING ==========
+.uploadthing/
+
+# ========== OUTROS SERVIÇOS ==========
+# Stripe CLI
+.stripe
+
+# Redis
+dump.rdb
+redis-data/
+urbanhost-backend/redis-data/
+
+# ========== ADMIN/INTERNAL TOOLS ==========
+admin/node_modules/
+admin/dist/
+admin/build/
+admin/.env
+admin/.env.*
+admin/.DS_Store
+
+# ========== CMS/REACT-ADMIN ==========
+cms/node_modules/
+cms/dist/
+cms/build/
+cms/.env
+cms/.env.*
+cms/.DS_Store
+
+# ========== EMAIL/SMS SERVICES ==========
+.resend/
+.twilio/
+urbanhost-backend/.resend/
+urbanhost-backend/.twilio/
+
+# ========== MAPBOX/GOOGLE MAPS ==========
+urbanhost-backend/.mapbox/
+urbanhost-backend/.googlemaps/
+
+# ========== BACKUP/SYNC ==========
+*.bak
+*.backup
+*.old
+
+# ========== TEMP & MISC ==========
+tmp/
+temp/
+urbanhost-backend/tmp/
+urbanhost-backend/temp/
+*.pid
+
+# ========== OS/EDITOR FILES ==========
+.DS_Store
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
+*.vscode/
+*.vs/
+.idea/
+*.iml
+
+# ========== DOCKER ==========
+docker-compose.override.yml
+docker-data/
+urbanhost-backend/docker-data/
+
+# ========== TESTS ==========
+coverage/
+urbanhost-backend/coverage/
+reports/
+urbanhost-backend/reports/
+
+# ========== GIT ==========
+.git/
+urbanhost-backend/.git/
+
+# ========== STORYBOOK ==========
+.storybook/
+storybook-static/
+*.stories.*
+
+# ========== MISC ==========
+# Ignore macOS .DS_Store everywhere
+**/.DS_Store
+
+# ========================
+# FIM DO URBANHOST .gitignore
+# ========================
